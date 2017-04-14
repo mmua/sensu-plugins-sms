@@ -117,6 +117,44 @@ Set your check to use the handler and define the playsms recipients.
 }
 ```
 
+### SMSC
+
+Create a json config file with your host, API user, and API secret.
+
+```json
+{
+  "smsc": {
+    "api_user": "XXXXX",
+    "api_secret": "YYYYY"
+  }
+}
+```
+
+Set your check to use the handler and define the playsms recipients.
+
+```json
+{
+  "checks": {
+    "check-disk-usage": {
+      "command": "check-disk-usage.rb -w :::disk.warning|80::: -c :::disk.critical|90:::",
+      "subscribers": [
+        "production"
+      ],
+      "handlers": [
+        "smsc"
+      ],
+      "smsc": {
+        "recipients": [
+          "1234567890",
+          "2345678901",
+        ]
+      },
+      "interval": 60,
+    }
+  }
+}
+```
+
 ## Installation
 
 [Installation and Setup](http://sensu-plugins.io/docs/installation_instructions.html)
