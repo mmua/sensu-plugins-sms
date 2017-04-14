@@ -43,7 +43,7 @@ require 'timeout'
 class SmscAlert < Sensu::Handler
   def send_sms(recipients, msg)
     client = Smsc::Sms.new(api_user, api_secret)
-    client.message(to: recipients, msg: msg)
+    client.message(msg, recipients)
   end
 
   def api_user
