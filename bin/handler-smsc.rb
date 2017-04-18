@@ -34,7 +34,6 @@
 #   SMSC handler by Maxim Moroz <maxim.moroz@gmail.com>
 #
 
-gem 'sensu-plugin', '= 2.0.0'
 require 'date'
 require 'smsc'
 require 'sensu-handler'
@@ -72,7 +71,7 @@ class SmscAlert < Sensu::Handler
   end
 
   def recipients
-    @event['check']['smsc']['recipients'].join ','
+    @event['check']['smsc']['recipients']
   end
 
   def short_name
