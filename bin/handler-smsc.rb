@@ -81,7 +81,7 @@ class SmscAlert < Sensu::Handler
   def handle
     Timeout.timeout 10 do
       send_sms(recipients, msg)
-      puts 'smsc -- sent alert for ' + short_name + ' to ' + recipients
+      puts 'smsc -- sent alert for ' + short_name + ' to ' + recipients.join ','
     end
   rescue Timeout::Error
     puts 'smsc -- timed out while attempting to ' + action_to_string + ' an incident -- '\
