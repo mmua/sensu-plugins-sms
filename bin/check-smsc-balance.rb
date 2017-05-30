@@ -40,15 +40,15 @@ require 'timeout'
 require 'faraday'
 
 require 'sensu-plugin/check/cli'
+require 'sensu-plugin/utils'
 
 class SMSCBalance < Sensu::Plugin::Check::CLI
-
+  include Sensu::Plugin::Utils
   check_name 'smsc_balance' # defaults to class name
 
   def check_balance
       connection = Faraday.new(url: 'https://smsc.ru') do |i|
         i.request  :url_encoded
-        i.response :logger
         i.adapter  Faraday.default_adapter
       end
       params = {
@@ -71,11 +71,11 @@ class SMSCBalance < Sensu::Plugin::Check::CLI
   def run
     balance = check_balance
     if balance > 200
-        ok "All is well"
+        ok "balance ok #{balance}"
     elsif balance > 100
-        warning "SMSC balance low" 
+        warning "balance low #{balance}" 
     else
-        critical "SMSC balance critical"
+        critical "balance critical #{balance}"
     end
   end
 
