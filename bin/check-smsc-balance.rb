@@ -46,6 +46,18 @@ class SMSCBalance < Sensu::Plugin::Check::CLI
   include Sensu::Plugin::Utils
   check_name 'smsc_balance' # defaults to class name
 
+  option :warning,
+         description: 'Warning threshold expression',
+         short: '-w WARNING',
+         long: '--warning WARNING',
+         default: 200
+
+  option :critical,
+         description: 'Critical threshold expression',
+         short: '-c CRITICAL',
+         long: '--critical CRITICAL',
+         default: 100
+
   def check_balance
       connection = Faraday.new(url: 'https://smsc.ru') do |i|
         i.request  :url_encoded
@@ -68,11 +80,12 @@ class SMSCBalance < Sensu::Plugin::Check::CLI
     settings['smsc']['api_secret']
   end
 
+
   def run
     balance = check_balance
-    if balance > 200
+    if balance > config[:warning].to_i
         ok "balance ok #{balance}"
-    elsif balance > 100
+    elsif balance > config[:critical].to_i
         warning "balance low #{balance}" 
     else
         critical "balance critical #{balance}"
