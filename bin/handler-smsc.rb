@@ -71,7 +71,7 @@ class SmscAlert < Sensu::Handler
   end
 
   def recipients
-    @event['check']['smsc']['recipients']
+    @event['check']['smsc']['recipients'] || settings['smsc']['recipients']
   end
 
   def short_name
@@ -85,6 +85,6 @@ class SmscAlert < Sensu::Handler
     end
   rescue Timeout::Error
     puts 'smsc -- timed out while attempting to ' + action_to_string + ' an incident -- '\
-         '(TO: ' + settings['smsc']['recipients'] + ' SUBJ: ' + subject + ')' + short_name
+         '(TO: ' + recipients + ' SUBJ: ' + subject + ')' + short_name
   end
 end
