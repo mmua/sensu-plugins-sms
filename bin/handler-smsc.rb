@@ -63,7 +63,7 @@ class SmscAlert < Sensu::Handler
   end
 
   def msg
-    "#{action_to_string} - #{short_name}: #{output} #{executed_at}"
+    "#{action_to_string} - #{short_name}: #{executed_at}"
   end
 
   def output
@@ -71,7 +71,7 @@ class SmscAlert < Sensu::Handler
   end
 
   def recipients
-    @event['check']['smsc']['recipients'] || settings['smsc']['recipients']
+    (@event['check']['smsc'] && @event['check']['smsc']['recipients']) || settings['smsc']['recipients']
   end
 
   def short_name
